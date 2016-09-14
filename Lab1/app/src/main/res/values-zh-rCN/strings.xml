@@ -3,4 +3,6 @@
     <string name="app_name">实验1</string>
     <string name="hello_message">你好！</string>
     <string name="ButtonText">按键</string>
+    <string name="title_activity_login">登陆界面</string>
+    <string name="login">登陆</string>
 </resources>
