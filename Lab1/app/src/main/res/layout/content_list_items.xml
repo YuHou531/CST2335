@@ -24,7 +24,7 @@
         android:background="@android:drawable/btn_star_big_on" />
 
     <Switch
-        android:layout_width="96dp"
+        android:layout_width="138dp"
         android:layout_height="71dp"
         android:text="Enable Something"
         android:id="@+id/switch1"
