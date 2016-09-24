@@ -1,5 +1,6 @@
 package com.example.yu.lab1;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,17 +18,20 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        Button login = (Button) findViewById(R.id.btnLogin);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        setContentView(R.layout.activity_login);
+        Button login = (Button) findViewById(R.id.btnLogin);
         login.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-
+                Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                startActivity(intent);
+                
             }
         });
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -44,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
 
         super.onStart();
+
         // The activity is about to become visible.
         Log.i(ACTIVITY_NAME, "In onStar()");
     }
@@ -71,7 +76,5 @@ public class LoginActivity extends AppCompatActivity {
         // The activity is about to be destroyed.
         Log.i(ACTIVITY_NAME, "onDestroy()");
     }
-    //Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-    //startActivity(intent);
 
 }
