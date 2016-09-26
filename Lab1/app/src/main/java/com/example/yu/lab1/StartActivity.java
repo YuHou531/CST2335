@@ -1,5 +1,6 @@
 package com.example.yu.lab1;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class StartActivity extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "StartActivity";
@@ -32,6 +34,12 @@ public class StartActivity extends AppCompatActivity {
         // Check which request we're responding to
         if (requestCode == 5) {
             Log.i(ACTIVITY_NAME,"Returned to StartActivity.onActivityResult");
+        }
+
+        if(requestCode== Activity.RESULT_OK){
+            Log.i(ACTIVITY_NAME,"passed:");
+            String messagePassed = data.getStringExtra("Response");
+
         }
     }
 

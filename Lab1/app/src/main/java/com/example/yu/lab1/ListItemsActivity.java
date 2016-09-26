@@ -85,16 +85,26 @@ public class ListItemsActivity extends AppCompatActivity {
                         .setTitle(R.string.dialog_title)
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent returnIntent = new Intent();
-                                setResult(RESULT_OK, returnIntent);
+
+                                Intent resultIntent = new Intent(ListItemsActivity.this, StartActivity.class);
+                                resultIntent.putExtra("Response", "My information to share");
+                                setResult(Activity.RESULT_OK, resultIntent);
                                 finish();
+
+
+
+                                CharSequence text ="My information to share";
+                                int duration = Toast.LENGTH_SHORT;
+
+                                Toast toast = Toast.makeText(ListItemsActivity.this , text, duration); //this is the ListActivity
+                                toast.show(); //display your message box
+
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent returnIntent = new Intent();
-                                setResult(RESULT_CANCELED, returnIntent);
-                                finish();
+                                dialog.cancel();
+
                             }
                         })
                         .show();
