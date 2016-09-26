@@ -1,8 +1,13 @@
 package com.example.yu.lab1;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 public class StartActivity extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "StartActivity";
@@ -11,26 +16,47 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        Log.i(ACTIVITY_NAME, "In onCreate()");
+
+        Button imbutton = (Button) findViewById(R.id.button);
+        imbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(StartActivity.this, ListItemsActivity.class);
+                startActivityForResult(intent,5);
+            }
+        });
+
     }
+    @Override
+    protected void onActivityResult(int requestCode, int responseCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 5) {
+            Log.i(ACTIVITY_NAME,"Returned to StartActivity.onActivityResult");
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         // The activity is about to become visible.
-        Log.i(ACTIVITY_NAME, "In onStar()");
+        Log.i(ACTIVITY_NAME, "In onStart()");
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         // The activity has become visible (it is now "resumed").
         Log.i(ACTIVITY_NAME, "In onResume()");
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         // Another activity is taking focus (this activity is about to be "paused").
         Log.i(ACTIVITY_NAME, "In onPause()");
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -38,6 +64,7 @@ public class StartActivity extends AppCompatActivity {
         Log.i(ACTIVITY_NAME, "In onStop()");
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
