@@ -6,5 +6,8 @@
     <string name="login">Login</string>
     <string name="title_activity_list_items">ListItemsActivity</string>
     <string name="preference_file_key">LoginActivityFileValues</string>
-
+    <string name="dialog_message">Do you want to finish the actvity？</string>
+    <string name="dialog_title">Confirmation</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 </resources>
