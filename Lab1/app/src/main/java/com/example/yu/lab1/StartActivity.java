@@ -21,13 +21,12 @@ public class StartActivity extends AppCompatActivity {
         imbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(StartActivity.this, ListItemsActivity.class);
                 startActivityForResult(intent,5);
             }
         });
-
     }
+
     @Override
     protected void onActivityResult(int requestCode, int responseCode, Intent data) {
         // Check which request we're responding to

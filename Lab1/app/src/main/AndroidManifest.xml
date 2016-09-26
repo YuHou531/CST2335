@@ -27,6 +27,8 @@
             android:name=".ListItemsActivity"
             android:label="@string/title_activity_list_items"
             android:theme="@style/AppTheme.NoActionBar">
+            <uses-feature android:name="android.hardware.camera"
+                android:required="true" />
         </activity>
 
     </application>

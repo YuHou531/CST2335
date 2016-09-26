@@ -1,16 +1,26 @@
 package com.example.yu.lab1;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.Switch;
+import android.widget.Toast;
 
 public class ListItemsActivity extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "ListItemsActivity";
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    protected ImageButton imageButton;
+    private Switch mySwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +31,45 @@ public class ListItemsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        imageButton = (ImageButton) findViewById(R.id.imageButton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            }
+        });
+
+        mySwitch = (Switch) findViewById(R.id.switch1);
+        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                Toast toast;
+                if(isChecked){
+                    CharSequence text = "Switch is On";// "Switch is Off"
+                    int duration = Toast.LENGTH_SHORT; //= Toast.LENGTH_LONG if Off
+
+                    toast = Toast.makeText(ListItemsActivity.this, text, duration); //this is the ListActivity
+
+                }else{
+                    CharSequence text = "Switch is off";// "Switch is Off"
+                    int duration = Toast.LENGTH_LONG; //= Toast.LENGTH_LONG if Off
+
+                    toast = Toast.makeText(ListItemsActivity.this, text, duration); //this is the ListActivity
+
+                }
+
+                toast.show(); //display your message box
+            }
+
+        });
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,6 +79,17 @@ public class ListItemsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageButton = (ImageButton) findViewById(R.id.imageButton);
+            imageButton.setImageBitmap(imageBitmap);
+        }
     }
 
     @Override
