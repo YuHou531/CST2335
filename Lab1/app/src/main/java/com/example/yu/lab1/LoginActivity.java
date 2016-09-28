@@ -1,6 +1,5 @@
 package com.example.yu.lab1;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
                 edit.putString("DefaultEmail", emailText.getText().toString());
                 edit.commit(); //must call commit to save
 
-                //
                 Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
             }
@@ -52,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
     }
 
     @Override

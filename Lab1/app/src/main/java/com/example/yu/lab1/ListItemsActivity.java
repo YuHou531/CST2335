@@ -31,6 +31,7 @@ public class ListItemsActivity extends AppCompatActivity {
         Log.i(ACTIVITY_NAME, "In onCreate()");
 
         setContentView(R.layout.activity_list_items);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -38,7 +39,6 @@ public class ListItemsActivity extends AppCompatActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -64,7 +64,6 @@ public class ListItemsActivity extends AppCompatActivity {
                     int duration = Toast.LENGTH_LONG; //= Toast.LENGTH_LONG if Off
 
                     toast = Toast.makeText(ListItemsActivity.this, text, duration); //this is the ListActivity
-
                 }
 
                 toast.show(); //display your message box
@@ -91,8 +90,6 @@ public class ListItemsActivity extends AppCompatActivity {
                                 setResult(Activity.RESULT_OK, resultIntent);
                                 finish();
 
-
-
                                 CharSequence text ="My information to share";
                                 int duration = Toast.LENGTH_SHORT;
 
@@ -108,8 +105,6 @@ public class ListItemsActivity extends AppCompatActivity {
                             }
                         })
                         .show();
-
-
             }
         });
 
