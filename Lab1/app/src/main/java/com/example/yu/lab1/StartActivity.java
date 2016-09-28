@@ -34,7 +34,7 @@ public class StartActivity extends AppCompatActivity {
             Log.i(ACTIVITY_NAME,"Returned to StartActivity.onActivityResult");
         }
 
-        if(requestCode== Activity.RESULT_OK){
+        if(responseCode== Activity.RESULT_OK){
             Log.i(ACTIVITY_NAME,"passed:");
             String messagePassed = data.getStringExtra("Response");
 
