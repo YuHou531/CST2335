@@ -4,9 +4,12 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.EditText;
+
+import java.util.ArrayList;
 
 public class ChatWindow extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "ChatWindow";
@@ -18,8 +21,19 @@ public class ChatWindow extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_window);
-    }
 
+        //initialize these variables using findViewById()
+        Button send = (Button) findViewById(R.id.button3);
+
+        EditText editText = (EditText) findViewById(R.id.editText);
+
+        final ArrayList<String> list = new ArrayList<String>();
+        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, list);
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(itemsAdapter);
+    }
+       
     @Override
     protected void onStart() {
         super.onStart();
