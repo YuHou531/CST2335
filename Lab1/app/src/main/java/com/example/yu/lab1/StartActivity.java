@@ -17,8 +17,8 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        Button imbutton = (Button) findViewById(R.id.button);
-        imbutton.setOnClickListener(new View.OnClickListener() {
+        Button imButton = (Button) findViewById(R.id.button);
+        imButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StartActivity.this, ListItemsActivity.class);
@@ -26,8 +26,8 @@ public class StartActivity extends AppCompatActivity {
             }
         });
 
-        Button button2 = (Button) findViewById(R.id.button);
-        button2.setOnClickListener(new View.OnClickListener() {
+        Button startchatButton = (Button) findViewById(R.id.button2);
+        startchatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(ACTIVITY_NAME, "User clicked Start_Chat");

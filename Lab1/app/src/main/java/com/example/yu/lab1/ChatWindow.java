@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -23,15 +24,22 @@ public class ChatWindow extends AppCompatActivity {
         setContentView(R.layout.activity_chat_window);
 
         //initialize these variables using findViewById()
-        Button send = (Button) findViewById(R.id.button3);
-
-        EditText editText = (EditText) findViewById(R.id.editText);
+        Button sendButton = (Button) findViewById(R.id.sendButton);
+        final EditText editText = (EditText) findViewById(R.id.editText);
+        ListView listView = (ListView) findViewById(R.id.listView);
 
         final ArrayList<String> list = new ArrayList<String>();
         ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, list);
-        ListView listView = (ListView) findViewById(R.id.listView);
+
         listView.setAdapter(itemsAdapter);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                list.add(editText.getText().toString());
+            }
+        });
     }
        
     @Override
@@ -39,7 +47,6 @@ public class ChatWindow extends AppCompatActivity {
         super.onStart();
         // The activity is about to become visible.
         Log.i(ACTIVITY_NAME, "In onStart()");
-
     }
 
     @Override
@@ -69,6 +76,21 @@ public class ChatWindow extends AppCompatActivity {
         // The activity is about to be destroyed.
         Log.i(ACTIVITY_NAME, "onDestroy()");
     }
+
+}
+
+//Inner class
+class ChatAdapter extends ArrayAdapter<String> {
+
+    ChatAdapter(Context context) {
+        super(context, 0);
+    }
+
+    ChatAdapter(Context context, ArrayList<String> list) {
+        super(context, 0, list);
+    }
+
+
 
 }
 

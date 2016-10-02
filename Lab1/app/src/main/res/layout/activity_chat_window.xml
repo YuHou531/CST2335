@@ -10,13 +10,11 @@
     tools:context="com.example.yu.lab1.ChatWindow"
     android:id="@+id/EditText">
 
-
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Send"
-        android:id="@+id/button3"
+        android:id="@+id/sendButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
@@ -24,16 +22,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_alignTOP="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/button3" />
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/sendButton" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
-        android:layout_alignBottom="@+id/button3"
+        android:layout_alignBottom="@+id/sendButton"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/button3" />
+        android:layout_toLeftOf="@+id/sendButton" />
 </RelativeLayout>
