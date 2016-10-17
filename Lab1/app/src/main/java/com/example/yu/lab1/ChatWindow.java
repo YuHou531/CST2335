@@ -1,6 +1,9 @@
 package com.example.yu.lab1;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +25,11 @@ public class ChatWindow extends AppCompatActivity {
     protected Button send;
     public final ArrayList<String> list = new ArrayList<String>();
 
+    private ChatDatabaseHelper chatDatabaseHelper;
+    private SQLiteDatabase sqlDB;
+    private String[] allMessages = { ChatDatabaseHelper.KEY_ID,
+            ChatDatabaseHelper.KEY_MESSAGE };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,18 +40,57 @@ public class ChatWindow extends AppCompatActivity {
         final EditText editText = (EditText) findViewById(R.id.editText);
         ListView listView = (ListView) findViewById(R.id.listView);
 
-        //Step 10
+        //Lab 5
+        //it creates a temporary ChatDatabaseHelper object,
+        //which then gets a writeable database and stores that as an instance variable.
+        chatDatabaseHelper = new ChatDatabaseHelper(this);
+        sqlDB = chatDatabaseHelper.getWritableDatabase();
+
+        //lab 5 - Step 5
+        //After opening the database, execute a query for any existing chat messages and add them
+        //into the ArrayList of messages that was created in Lab4
+        Cursor cursor = sqlDB.query(ChatDatabaseHelper.TABLE_NAME,
+                allMessages, null, null, null, null, null);
+
+        cursor.moveToFirst();
+
+        while(!cursor.isAfterLast()) {
+            String message = cursor.getString( cursor.getColumnIndex( ChatDatabaseHelper.KEY_MESSAGE) );
+            Log.i(ACTIVITY_NAME, "SQL MESSAGE:" + message );
+            list.add(message);
+            cursor.moveToNext();
+        }
+
+        int cursorColumnCount = cursor.getColumnCount();
+        Log.i(ACTIVITY_NAME, "Cursor’s column count =" + cursorColumnCount );
+        for(int j=0; j<cursorColumnCount; j++) {
+            Log.i(ACTIVITY_NAME, "Cursor’s column name =" + cursor.getColumnName(j) );
+        }
+
+        // make sure to close the cursor
+        cursor.close();
+
+        //Lab 4 - Step 10
         final ArrayAdapter<String> messageAdapter = new ChatAdapter(this, list);
         listView.setAdapter(messageAdapter);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                list.add(editText.getText().toString());
+                String message = editText.getText().toString();
+                list.add(message);
                 editText.setText(""); //clear the text
                 messageAdapter.notifyDataSetChanged();
+
+                //Lab 5 - insert the new message to the database
+                ContentValues values = new ContentValues();
+                values.put(ChatDatabaseHelper.KEY_MESSAGE, message);
+                sqlDB.insert(ChatDatabaseHelper.TABLE_NAME, null,
+                        values);
             }
         });
+
+
     }
 
     @Override
@@ -79,8 +126,10 @@ public class ChatWindow extends AppCompatActivity {
         super.onDestroy();
         // The activity is about to be destroyed.
         Log.i(ACTIVITY_NAME, "onDestroy()");
-    }
 
+        //Lab 5 - close the database that you opened in onCreate()
+        chatDatabaseHelper.close();
+    }
 }
 
 //Inner class
