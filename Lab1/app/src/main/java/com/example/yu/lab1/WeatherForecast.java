@@ -19,6 +19,9 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class WeatherForecast extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "WeatherForecast";
 
@@ -92,8 +95,15 @@ public class WeatherForecast extends AppCompatActivity {
         private Bitmap currentWeatherBitMap;
 
         protected String doInBackground(String... args) {
-            // code where data is processing
-            return null;
+            URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=ottawa,ca&APPID=d99666875e0e51521f0040a3d97d0f6a&mode=xml&units=metric");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            // Starts the query
+            conn.connect();
+            return url;
         }
 
         protected Integer onPostExecute(Integer result) {
