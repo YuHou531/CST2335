@@ -37,7 +37,7 @@ public class StartActivity extends AppCompatActivity {
         });
 
         Button weatherButton = (Button) findViewById(R.id.button3);
-        startchatButton.setOnClickListener(new View.OnClickListener() {
+        weatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(ACTIVITY_NAME, "User clicked weather_forecast");
