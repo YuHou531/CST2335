@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,10 +15,13 @@ import android.widget.TextView;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class WeatherForecast extends AppCompatActivity {
@@ -30,6 +32,7 @@ public class WeatherForecast extends AppCompatActivity {
     ImageView weatherView;
     Bitmap currentWeatherBitMap;
     String iconName;
+    private int state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +50,51 @@ public class WeatherForecast extends AppCompatActivity {
 
         weatherView = (ImageView) findViewById(R.id.weather_image_view);
 
-        //when back to main and call this AsyncTask again, not quite work
         new ForecastQuery().execute("http://api.openweathermap.org/data/2.5/weather?q=ottawa,ca&APPID=d99666875e0e51521f0040a3d97d0f6a&mode=xml&units=metric");
     }
 
-    private int state;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // The activity is about to become visible.
+        Log.i(ACTIVITY_NAME, "In onStart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // The activity has become visible (it is now "resumed").
+        Log.i(ACTIVITY_NAME, "In onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Another activity is taking focus (this activity is about to be "paused").
+        Log.i(ACTIVITY_NAME, "In onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // The activity is no longer visible (it is now "stopped")
+        Log.i(ACTIVITY_NAME, "In onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // The activity is about to be destroyed.
+        Log.i(ACTIVITY_NAME, "In onDestroy()");
+    }
+
+    public boolean fileExistance(String fname) {
+        File file = getBaseContext().getFileStreamPath(fname);
+        return file.exists();
+    }
 
     private class ForecastQuery extends AsyncTask<String, Integer, String> {
-        
+
         public String doInBackground(String... args) {
             state = 0;
 
@@ -69,7 +109,6 @@ public class WeatherForecast extends AppCompatActivity {
                 XmlPullParser xpp = factory.newPullParser();
 
                 xpp.setInput(istream, "UTF8");
-                boolean finished = false;
                 int type = XmlPullParser.START_DOCUMENT;
 
                 while (type != XmlPullParser.END_DOCUMENT) {
@@ -78,7 +117,6 @@ public class WeatherForecast extends AppCompatActivity {
                         case XmlPullParser.START_DOCUMENT:
                             break;
                         case XmlPullParser.END_DOCUMENT:
-                            finished = true;
                             break;
                         case XmlPullParser.START_TAG:
                             String name = xpp.getName();
@@ -117,22 +155,36 @@ public class WeatherForecast extends AppCompatActivity {
 
             switch (state++) {
                 case 0:
-                    //first.setText("current temperature " + currentTep + "°C");
                     loadingImageBar.setProgress(updateInfo[0]);
                     break;
                 case 1:
-                    //second.setText("min temperature " + minTep + "°C");
                     loadingImageBar.setProgress(updateInfo[0]);
                     break;
                 case 2:
-                    //third.setText("max temperature " + maxTep+ "°C");
                     loadingImageBar.setProgress(updateInfo[0]);
                     break;
             }
 
-            if(iconName != null) {
+            if (iconName != null) {
                 String imageURL = "http://openweathermap.org/img/w/" + iconName + ".png";
-                while (currentWeatherBitMap == null) {
+                String fileName = iconName + ".png";
+                boolean exist = fileExistance(fileName);
+                if (exist) {
+                    Log.i(ACTIVITY_NAME, fileName + " exists and no need to download again!");
+                    FileInputStream fis = null;
+                    try {
+                        fis = new FileInputStream(fileName);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        currentWeatherBitMap = null;
+                    }
+                    currentWeatherBitMap = BitmapFactory.decodeStream(fis);
+                } else {
+                    Log.i(ACTIVITY_NAME, fileName + " does not exist and need to download!");
+                    new DownloadBitmap().execute(imageURL);
+                }
+
+                if (currentWeatherBitMap == null) {
                     new DownloadBitmap().execute(imageURL);
                 }
             }
@@ -142,12 +194,14 @@ public class WeatherForecast extends AppCompatActivity {
             first.setText("current temperature " + currentTep + "°C");
             second.setText("min temperature " + minTep + "°C");
             third.setText("max temperature " + maxTep + "°C");
-            weatherView.setImageBitmap(currentWeatherBitMap);
+            if (currentWeatherBitMap != null) {
+                weatherView.setImageBitmap(currentWeatherBitMap);
+            }
             loadingImageBar.setVisibility(View.INVISIBLE);
         }
     }
 
-    private class DownloadBitmap extends AsyncTask<String, Void, String> {
+    private class DownloadBitmap extends AsyncTask<String, Integer, String> {
 
         public String doInBackground(String... args) {
             HttpURLConnection connection = null;
@@ -160,10 +214,13 @@ public class WeatherForecast extends AppCompatActivity {
                 if (responseCode == 200) {
                     currentWeatherBitMap = BitmapFactory.decodeStream(connection.getInputStream());
                     try {
-                        FileOutputStream outputStream = openFileOutput( iconName + ".png", Context.MODE_PRIVATE);
-                        currentWeatherBitMap.compress(Bitmap.CompressFormat.PNG, 80, outputStream);
-                        outputStream.flush();
-                        outputStream.close();
+                        FileOutputStream fos = openFileOutput(iconName + ".png", Context.MODE_PRIVATE);
+                        ByteArrayOutputStream outstream = new ByteArrayOutputStream();
+                        currentWeatherBitMap.compress(Bitmap.CompressFormat.PNG, 80, outstream);
+                        byte[] byteArray = outstream.toByteArray();
+                        fos.write(byteArray);
+                        fos.close();
+                        publishProgress(100);
                     } catch (Exception e) {
                         Log.i(ACTIVITY_NAME, "DownloadBitmap doInBackground with Exception " + e.getMessage());
                     }
@@ -181,12 +238,12 @@ public class WeatherForecast extends AppCompatActivity {
             }
         }
 
-        public void onProgressUpdate(Void... args) {
-            //Nothing to do
+        public void onProgressUpdate(Integer... updateInfo) {
+            loadingImageBar.setProgress(updateInfo[0]);
         }
 
         public void onPostExecute(String result) {
-            //Nothing to do
+            weatherView.setImageBitmap(currentWeatherBitMap);
         }
     }
 }
