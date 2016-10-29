@@ -13,27 +13,8 @@
     tools:context="com.example.yu.lab1.WeatherForecast"
     tools:showIn="@layout/activity_weather_forecast">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/alert_light_frame"
-        android:id="@+id/weather_image_view"
-        android:minWidth="200dp"
-        android:minHeight="200dp"/>
-
     <TextView
-        android:text="current temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/weather_image_view"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="14dp"
-        android:id="@+id/weather_current_temperature_textview"
-        android:layout_alignEnd="@+id/weather_image_view" />
-
-    <TextView
-        android:text="min temperature"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="37dp"
         android:id="@+id/weather_min_temperature_textview"
@@ -41,18 +22,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/weather_current_temperature_textview" />
 
-    <TextView
-        android:text="max temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/weather_min_temperature_textview"
-        android:layout_alignStart="@+id/weather_min_temperature_textview"
-        android:layout_marginTop="41dp"
-        android:id="@+id/weather_max_temperature_textview"
-        android:layout_alignEnd="@+id/weather_min_temperature_textview" />
-
     <ProgressBar
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/weather_max_temperature_textview"
         android:layout_alignParentStart="true"
@@ -61,5 +32,31 @@
         android:visibility="invisible"
         tools:visibility="invisible"
         style="?android:attr/progressBarStyleHorizontal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:id="@+id/weather_max_temperature_textview"
+        android:layout_below="@+id/weather_min_temperature_textview"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:id="@+id/weather_current_temperature_textview"
+        android:layout_below="@+id/weather_image_view"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/alert_light_frame"
+        android:id="@+id/weather_image_view"
+        android:minWidth="200dp"
+        android:minHeight="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
