@@ -172,8 +172,9 @@ public class WeatherForecast extends AppCompatActivity {
                 if (exist) {
                     Log.i(ACTIVITY_NAME, fileName + " exists and no need to download again!");
                     FileInputStream fis = null;
+                    File file = getBaseContext().getFileStreamPath(fileName);
                     try {
-                        fis = new FileInputStream(fileName);
+                        fis = new FileInputStream(file);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                         currentWeatherBitMap = null;
