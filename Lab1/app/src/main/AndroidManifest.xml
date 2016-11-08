@@ -42,7 +42,8 @@
         <activity
             android:name=".MessageListActivity"
             android:label="@string/title_message_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".MessageDetailActivity"
             android:label="@string/title_message_detail"

@@ -63,15 +63,6 @@ public class MessageListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         //initialize these variables using findViewById()
         Button sendButton = (Button) findViewById(R.id.sendButton);
         final EditText editText = (EditText) findViewById(R.id.editText);
