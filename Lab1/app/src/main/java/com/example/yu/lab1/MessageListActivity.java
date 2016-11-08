@@ -118,10 +118,6 @@ public class MessageListActivity extends AppCompatActivity {
             }
         });
 
-//        View recyclerView = findViewById(R.id.message_list);
-//        assert recyclerView != null;
-//        setupRecyclerView((RecyclerView) recyclerView);
-
         if (findViewById(R.id.message_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -202,5 +198,40 @@ public class MessageListActivity extends AppCompatActivity {
                 return super.toString() + " '" + mContentView.getText() + "'";
             }
         }
+    }
+}
+
+//Inner class
+class ChatAdapter extends ArrayAdapter<String> {
+
+    private final ArrayList<String> list;
+    private final Context context;
+
+    ChatAdapter(Context context, ArrayList<String> list) {
+        super(context, 0, list);
+        this.list = list;
+        this.context = context;
+    }
+
+    public int getCount() {
+        return list.size();
+    }
+
+    public String getItem(int position) {
+        return list.get(position);
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View result = null;
+        if(position%2 == 0) {
+            result = inflater.inflate(R.layout.chat_row_incoming, null);
+        }
+        else {
+            result = inflater.inflate(R.layout.chat_row_outgoing, null);
+        }
+        TextView message = (TextView)result.findViewById(R.id.message_text);
+        message.setText( getItem(position) ); // get the string at position
+        return result;
     }
 }

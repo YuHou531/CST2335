@@ -132,37 +132,4 @@ public class ChatWindow extends AppCompatActivity {
     }
 }
 
-//Inner class
-class ChatAdapter extends ArrayAdapter<String> {
 
-    private final ArrayList<String> list;
-    private final Context context;
-
-    ChatAdapter(Context context, ArrayList<String> list) {
-        super(context, 0, list);
-        this.list = list;
-        this.context = context;
-    }
-
-    public int getCount() {
-        return list.size();
-    }
-
-    public String getItem(int position) {
-        return list.get(position);
-    }
-
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View result = null;
-        if(position%2 == 0) {
-            result = inflater.inflate(R.layout.chat_row_incoming, null);
-        }
-        else {
-            result = inflater.inflate(R.layout.chat_row_outgoing, null);
-        }
-        TextView message = (TextView)result.findViewById(R.id.message_text);
-        message.setText( getItem(position) ); // get the string at position
-        return result;
-    }
-}
