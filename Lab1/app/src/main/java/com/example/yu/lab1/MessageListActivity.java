@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -154,23 +155,37 @@ public class MessageListActivity extends AppCompatActivity {
             holder.mContentView.setText(mValues.get(position).content);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mTwoPane) {
-                        Bundle arguments = new Bundle();
-                        arguments.putString(MessageDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        MessageDetailFragment fragment = new MessageDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.message_detail_container, fragment)
-                                .commit();
-                    } else {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, MessageDetailActivity.class);
-                        intent.putExtra(MessageDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+//                @Override
+//                public void onClick(View v) {
+//                    if (mTwoPane) {
+//                        Bundle arguments = new Bundle();
+//                        arguments.putString(MessageDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+//                        MessageDetailFragment fragment = new MessageDetailFragment();
+//                        fragment.setArguments(arguments);
+//                        getSupportFragmentManager().beginTransaction()
+//                                .replace(R.id.message_detail_container, fragment)
+//                                .commit();
+//                    } else {
+//                        Context context = v.getContext();
+//                        Intent intent = new Intent(context, MessageDetailActivity.class);
+//                        intent.putExtra(MessageDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+//
+//                        context.startActivity(intent);
+//                    }
+//                }
 
-                        context.startActivity(intent);
-                    }
+                @Override
+                public void onClick(View view) {
+                    String message = editText.getText().toString();
+                    list.add(message);
+                    editText.setText(""); //clear the text
+                    //messageAdapter.notifyDataSetChanged();
+
+                    //Lab 5 - insert the new message to the database
+                    ContentValues values = new ContentValues();
+                    values.put(ChatDatabaseHelper.KEY_MESSAGE, message);
+                    sqlDB.insert(ChatDatabaseHelper.TABLE_NAME, null,
+                            values);
                 }
             });
         }
@@ -231,7 +246,32 @@ class ChatAdapter extends ArrayAdapter<String> {
             result = inflater.inflate(R.layout.chat_row_outgoing, null);
         }
         TextView message = (TextView)result.findViewById(R.id.message_text);
-        message.setText( getItem(position) ); // get the string at position
-        return result;
+        // get the string at position
+        final String messageText = getItem(position) ;
+        message.setText(messageText);
+
+        result.setOnClickListener(new View.OnClickListener() {
+
+//            private boolean mTwoPane;
+
+            @Override
+            public void onClick(View v) {
+                if (mTwoPane) {
+                    Bundle arguments = new Bundle();
+                    arguments.putString(MessageDetailFragment.ARG_ITEM_ID, messageText);
+                    MessageDetailFragment fragment = new MessageDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.message_detail_container, fragment)
+                            .commit();
+                } else {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, MessageDetailActivity.class);
+                    intent.putExtra(MessageDetailFragment.ARG_ITEM_ID, messageText);
+                    context.startActivity(intent);
+                }
+            }
+        });
+            return result;
     }
 }
