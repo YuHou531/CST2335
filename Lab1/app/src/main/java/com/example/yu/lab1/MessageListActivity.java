@@ -22,7 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import android.support.v4.app.Fragment;
 
 import com.example.yu.lab1.dummy.DummyContent;
 
@@ -155,40 +155,28 @@ public class MessageListActivity extends AppCompatActivity {
             holder.mContentView.setText(mValues.get(position).content);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (mTwoPane) {
-//                        Bundle arguments = new Bundle();
-//                        arguments.putString(MessageDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-//                        MessageDetailFragment fragment = new MessageDetailFragment();
-//                        fragment.setArguments(arguments);
-//                        getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.message_detail_container, fragment)
-//                                .commit();
-//                    } else {
-//                        Context context = v.getContext();
-//                        Intent intent = new Intent(context, MessageDetailActivity.class);
-//                        intent.putExtra(MessageDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-//
-//                        context.startActivity(intent);
-//                    }
-//                }
+             @Override
+              public void onClick(View v) {
+                 if (mTwoPane) {
+                        Bundle arguments = new Bundle();
+                        arguments.putString(MessageDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        MessageDetailFragment fragment = new MessageDetailFragment();
+                        fragment.setArguments(arguments);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.message_detail_container, fragment)
+                               .commit();
+                    }
+                 else {
+                        Context context = v.getContext();
+                       Intent intent = new Intent(context, MessageDetailActivity.class);
+                       intent.putExtra(MessageDetailFragment.ARG_ITEM_ID, holder.mItem.id);
 
-                @Override
-                public void onClick(View view) {
-                    String message = editText.getText().toString();
-                    list.add(message);
-                    editText.setText(""); //clear the text
-                    //messageAdapter.notifyDataSetChanged();
-
-                    //Lab 5 - insert the new message to the database
-                    ContentValues values = new ContentValues();
-                    values.put(ChatDatabaseHelper.KEY_MESSAGE, message);
-                    sqlDB.insert(ChatDatabaseHelper.TABLE_NAME, null,
-                            values);
-                }
+                       context.startActivity(intent);
+                   }
+             }
             });
         }
+
 
         @Override
         public int getItemCount() {
@@ -214,7 +202,7 @@ public class MessageListActivity extends AppCompatActivity {
             }
         }
     }
-}
+
 
 //Inner class
 class ChatAdapter extends ArrayAdapter<String> {
@@ -238,8 +226,9 @@ class ChatAdapter extends ArrayAdapter<String> {
         return list.get(position);
     }
 
+
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = MessageListActivity.this.getLayoutInflater();
         View result = null;
         if(position%2 == 0) {
             result = inflater.inflate(R.layout.chat_row_incoming, null);
@@ -247,7 +236,7 @@ class ChatAdapter extends ArrayAdapter<String> {
         else {
             result = inflater.inflate(R.layout.chat_row_outgoing, null);
         }
-        TextView message = (TextView)result.findViewById(R.id.message_text);
+        TextView message = (TextView) result.findViewById(R.id.message_text);
         // get the string at position
         final String messageText = getItem(position) ;
         message.setText(messageText);
@@ -276,4 +265,4 @@ class ChatAdapter extends ArrayAdapter<String> {
         });
             return result;
     }
-}
+}}

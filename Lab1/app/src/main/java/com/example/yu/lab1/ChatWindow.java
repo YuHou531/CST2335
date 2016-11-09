@@ -2,6 +2,7 @@ package com.example.yu.lab1;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -130,6 +131,66 @@ public class ChatWindow extends AppCompatActivity {
         //Lab 5 - close the database that you opened in onCreate()
         chatDatabaseHelper.close();
     }
-}
+    class ChatAdapter extends ArrayAdapter<String> {
+        private boolean mTwoPane;
+
+        private final ArrayList<String> list;
+        private final Context context;
+
+
+        ChatAdapter(Context context, ArrayList<String> list) {
+            super(context, 0, list);
+            this.list = list;
+            this.context = context;
+        }
+
+        public int getCount() {
+            return list.size();
+        }
+
+        public String getItem(int position) {
+            return list.get(position);
+        }
+
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = ChatWindow.this.getLayoutInflater();
+            View result = null;
+            if(position%2 == 0) {
+                result = inflater.inflate(R.layout.chat_row_incoming, null);
+            }
+            else {
+                result = inflater.inflate(R.layout.chat_row_outgoing, null);
+            }
+            TextView message = (TextView) result.findViewById(R.id.message_text);
+            // get the string at position
+            final String messageText = getItem(position) ;
+            message.setText(messageText);
+
+            result.setOnClickListener(new View.OnClickListener() {
+
+
+
+                @Override
+                public void onClick(View v) {
+                    if (mTwoPane) {
+                        Bundle arguments = new Bundle();
+                        arguments.putString(MessageDetailFragment.ARG_ITEM_ID, messageText);
+                        MessageDetailFragment fragment = new MessageDetailFragment();
+                        fragment.setArguments(arguments);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.message_detail_container, fragment)
+                                .commit();
+                    } else {
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, MessageDetailActivity.class);
+                        intent.putExtra(MessageDetailFragment.ARG_ITEM_ID, messageText);
+                        context.startActivity(intent);
+                    }
+                }
+            });
+            return result;
+        }
+}}
 
 
