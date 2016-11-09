@@ -218,9 +218,11 @@ public class MessageListActivity extends AppCompatActivity {
 
 //Inner class
 class ChatAdapter extends ArrayAdapter<String> {
+    private boolean mTwoPane;
 
     private final ArrayList<String> list;
     private final Context context;
+
 
     ChatAdapter(Context context, ArrayList<String> list) {
         super(context, 0, list);
@@ -252,7 +254,7 @@ class ChatAdapter extends ArrayAdapter<String> {
 
         result.setOnClickListener(new View.OnClickListener() {
 
-//            private boolean mTwoPane;
+
 
             @Override
             public void onClick(View v) {
