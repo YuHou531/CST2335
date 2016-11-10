@@ -206,7 +206,6 @@ public class MessageListActivity extends AppCompatActivity {
 
 //Inner class
 class ChatAdapter extends ArrayAdapter<String> {
-    private boolean mTwoPane;
 
     private final ArrayList<String> list;
     private final Context context;
@@ -226,7 +225,6 @@ class ChatAdapter extends ArrayAdapter<String> {
         return list.get(position);
     }
 
-
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = MessageListActivity.this.getLayoutInflater();
         View result = null;
@@ -242,9 +240,6 @@ class ChatAdapter extends ArrayAdapter<String> {
         message.setText(messageText);
 
         result.setOnClickListener(new View.OnClickListener() {
-
-
-
             @Override
             public void onClick(View v) {
                 if (mTwoPane) {

@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:baselineAligned="false"
@@ -51,8 +51,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/listView"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_above="@+id/sendButton" />
+            android:layout_above="@+id/sendButton"
+            android:layout_alignParentEnd="true" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -62,11 +62,14 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/sendButton" />
+
+
     </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/message_detail_container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_weight="5" />
+
 </LinearLayout>
