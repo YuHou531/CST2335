@@ -180,7 +180,7 @@ public class MessageListActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return list.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
