@@ -260,4 +260,4 @@ class ChatAdapter extends ArrayAdapter<String> {
         });
             return result;
     }
-}}
+}} 
