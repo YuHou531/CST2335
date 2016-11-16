@@ -50,12 +50,12 @@ public class TestToolbar extends AppCompatActivity {
                 break;
 
             case R.id.Choice2:
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.conformation);
                 // Add the buttons
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
+                        finish();
                     }
                 });
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -63,7 +63,7 @@ public class TestToolbar extends AppCompatActivity {
                         // User cancelled the dialog
                     }
                 });
-                // Create the AlertDialog
+                 //Create the AlertDialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 break;
