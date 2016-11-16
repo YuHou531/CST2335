@@ -9,14 +9,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import static com.example.yu.lab1.R.id.id;
-
 public class TestToolbar extends AppCompatActivity {
+    String msg = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +42,20 @@ public class TestToolbar extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem mi) {
+
         switch (mi.getItemId()) {
 
             case R.id.Choice1:
                 Log.d("Toolbar", "Option 1 selected");
-                Snackbar.make(findViewById(android.R.id.content), "You selected item 1", Snackbar.LENGTH_LONG)
-                        .show();
+                if(msg.equals("")) {
+                    Snackbar.make(findViewById(android.R.id.content), "You selected item 1", Snackbar.LENGTH_LONG)
+                            .show();
+                }
+                else {
+                    Snackbar.make(findViewById(android.R.id.content), msg, Snackbar.LENGTH_LONG)
+                            .show();
+                }
+
                 break;
 
             case R.id.Choice2:
@@ -69,7 +78,32 @@ public class TestToolbar extends AppCompatActivity {
                 break;
 
             case R.id.Choice3:
-                //Start an activity…
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+
+                // Get the layout inflater
+                LayoutInflater inflater = this.getLayoutInflater();
+                final View inflator = inflater.inflate(R.layout.dialog_msg, null);
+                final EditText msgText = (EditText) inflator.findViewById(R.id.dialog_msg);
+
+                // Inflate and set the layout for the dialog
+                // Pass null as the parent view because its going in the dialog layout
+                builder1.setView(inflator)
+                        // Add action buttons
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                msg = msgText.getText().toString();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+
+                //Create the AlertDialog
+                AlertDialog dialog1 = builder1.create();
+                dialog1.show();
                 break;
 
             case R.id.About:

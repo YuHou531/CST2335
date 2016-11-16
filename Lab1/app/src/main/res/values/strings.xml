@@ -17,5 +17,6 @@
     <string name="title_message_detail">Message Detail</string>
     <string name="title_activity_test_toolbar">TestToolbar</string>
     <string name="conformation">Do you want to go back?</string>
+    <string name="newmesssage">New Message</string>
 
 </resources>
